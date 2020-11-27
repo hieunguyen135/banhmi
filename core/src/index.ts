@@ -1,5 +1,8 @@
 import "focus-visible";
-import "./index.scss";
+// Import order here is important!
+import "./reset.css";
+// This must come after reset!
+import "./index.css";
 
 export * from "./background/background";
 export * from "./border/border";
