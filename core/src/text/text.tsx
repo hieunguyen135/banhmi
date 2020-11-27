@@ -1,6 +1,6 @@
 import React from "react";
 
-import s from "./text.module.scss";
+import s from "./text.module.css";
 
 interface Props {
 	children: React.ReactNode;
@@ -12,11 +12,11 @@ export const text = {
 	p: s.p as string,
 	break: s.break as string,
 	// ===
-	blue: s.blue as string,
+	blueStrong: s.blueStrong as string,
 	blueWeak: s.blueWeak as string,
-	green: s.green as string,
+	greenStrong: s.greenStrong as string,
 	greenWeak: s.greenWeak as string,
-	red: s.red as string,
+	redStrong: s.redStrong as string,
 	redWeak: s.redWeak as string,
 };
 

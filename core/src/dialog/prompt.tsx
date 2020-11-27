@@ -3,42 +3,51 @@ import { Button } from "../button/button";
 import { DivPx } from "../div/div";
 import { Input } from "../input/input";
 import { TextArea } from "../text-area/text-area";
-import { Dialog, DialogProps } from "./dialog";
+import { Dialog } from "./dialog";
 import { DialogMessage, DialogMessageC } from "./utils/message";
 import { renderDialog } from "./utils/render";
 
 interface Props {
 	children: DialogMessage;
 	initialText?: string;
-	useTextArea?: boolean;
+	rows?: number;
 	onOk: (text: string) => void;
 	onCancel: () => void;
-	width: DialogProps["width"];
+	width: "fixed" | number;
 }
 
 export const PromptDialog = (props: Props) => {
 	const [text, setText] = React.useState<string>(props.initialText ?? "");
 	return (
-		<Dialog onEsc={props.onCancel} width={props.width}>
+		<Dialog
+			onEsc={props.onCancel}
+			width={typeof props.width === "number" ? "content" : "fixed"}
+		>
 			<Dialog.Body>
 				<DialogMessageC children={props.children} />
 				<DivPx size={16} />
-				{props.useTextArea ? (
-					<TextArea
-						autoFocus
-						autoSelect
-						value={text}
-						setValue={setText}
-						rows={3}
-					/>
-				) : (
-					<Input
-						autoFocus
-						autoSelect
-						value={text}
-						setValue={setText}
-					/>
-				)}
+				<div
+					style={{
+						width: props.width === "fixed" ? "auto" : props.width,
+					}}
+				>
+					{props.rows !== 1 ? (
+						<TextArea
+							autoFocus
+							autoSelect
+							value={text}
+							setValue={setText}
+							rows={props.rows}
+						/>
+					) : (
+						<Input
+							autoFocus
+							autoSelect
+							value={text}
+							setValue={setText}
+						/>
+					)}
+				</div>
 			</Dialog.Body>
 			<Dialog.Footer>
 				<Button onClick={props.onCancel} children="Cancel" />
@@ -53,10 +62,7 @@ export const PromptDialog = (props: Props) => {
 	);
 };
 
-interface Options {
-	width?: DialogProps["width"];
-	useTextArea?: boolean;
-}
+type Options = Pick<Props, "width" | "rows">;
 
 /**
  * Moai's alternative to window.prompt
@@ -80,7 +86,7 @@ export const prompt = (
 				}}
 				children={message}
 				width={options?.width ?? "fixed"}
-				useTextArea={options?.useTextArea}
+				rows={options?.rows ?? 1}
 				initialText={initialText}
 			/>
 		));
