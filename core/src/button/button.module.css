@@ -7,6 +7,10 @@
 	position: relative;
 }
 
+.reverseButton {
+	flex-direction: row-reverse;
+}
+
 .fullWidth {
 	width: 100%;
 }

@@ -22,7 +22,7 @@ export type ButtonSize = {
 };
 
 const getClass = (props: ButtonProps) => {
-	const { highlight, selected, isFullWidth, isBusy, disabled } = props;
+	const { highlight, selected, isFullWidth, isBusy, disabled, isReverse, icon } = props;
 	const size = props.size ?? Button.size.medium;
 	const style = props.style ?? Button.style.outset;
 	if (highlight === true && selected === true)
@@ -32,12 +32,14 @@ const getClass = (props: ButtonProps) => {
 	if (selected) classes.push(style.selected);
 	if (highlight) classes.push(style.highlight);
 	if (disabled || isBusy) classes.push(style.disabled, s.disabled);
+	if (icon && isReverse) classes.push(s.reverseButton)
 	return classes.join(" ");
 };
 
 interface ChildrenProps {
 	children?: React.ReactNode;
 	icon?: IconPath;
+	isReverse?: boolean;
 	iconLabel?: string;
 	size?: ButtonSize;
 	isBusy?: boolean;
